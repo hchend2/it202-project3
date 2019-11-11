@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Canvas Animation</title>
+  
+  </head>
+  
+<body>
+
+
+<canvas id="animationCanvas" width="400" height="400"></canvas>
+
+
+<script>
+var background = new Image();
+background.src = "hs-2014-27-a-print.0.0.jpg";
+
+var harm = {rad: 10, x: 0, y: 200, color:"red"};
+var c = document.getElementById("animationCanvas");   
+var ctx = c.getContext("2d");
+console.log(c.width, c.height);
+
+
+var score = 0;
+var lives = 10;
+var gameOver = false;
+
+var benefit = {rad: 10, x: 0, y: 100, color:"blue"};
+
+var myPlayer = {rad: 10, x: 350, y: c.height/2, color: "green"};
+ 
+window.addEventListener("keydown", function(e){
+console.log(e);
+if(e.code == "ArrowDown"){
+    
+     myPlayer.y += 3;
+}
+  if(e.code == "ArrowUp"){
+
+      myPlayer.y -= 3;
+  }
+
+});
+function gameLoop() {
+  //text on canvas
+  
+  // clear the canvas
+  ctx.clearRect(0, 0, c.width, c.height);
+
+
+  // increment coord to "move" l to r
+  harm.x += 0.5;
+  benefit.x += 0.5;
+
+  //handle edge condition
+  if (harm.x > c.width) {
+    let random = Math.floor(Math.random()*(0 - (-24) + 1)+(-24));
+    harm.x = random;
+    random = Math.floor(Math.random()*(c.height + 1));
+    harm.y = random;
+  }
+
+  if (benefit.x > c.width) {
+    benefit.x -= c.width;
+  }
+
+  if(myPlayer.y > c.height){
+     myPlayer.y -= c.height/2; 
+  }
+  // draw objects
+
+  // draw the background image
+  //ctx.drawImage(background, 0, 0);
+  
+  // draw a circle
+  // start a new path;  
+  //  comment out begin and close path to see what happens
+
+  drawObject(myPlayer);
+  drawObject(harm);
+  drawObject(benefit);
+
+
+  //losingOrwinningThegame();
+  // for i in [myPlayer, harm, benefit] {
+  //   drawObject[i]
+  // }
+  
+  //ctx.arc(y1, x1, 25, 0, Math.PI * 2);
+  
+
+  // call again when available
+  if(!gameOver){
+window.requestAnimationFrame(gameLoop);
+}
+}
+
+// kick it off
+window.requestAnimationFrame(gameLoop);
+
+function drawObject(obj){
+  //console.log(obj);
+  ctx.beginPath();
+  ctx.arc(obj.x, obj.y, obj.rad, 0, Math.PI*2);
+  ctx.closePath();
+  ctx.fillStyle = obj.color;
+  ctx.fill();
+  
+}
+
+
+
+</script>
+
+</body>
+</html>
