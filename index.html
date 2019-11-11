@@ -9,7 +9,15 @@
 
 
 <canvas id="animationCanvas" width="400" height="400"></canvas>
+<canvas id="myCanvas" width="400" height="400"></canvas>
 
+<script>
+  var canvas = document.getElementById("myCanvas");   
+  var ctx = canvas.getContext("2d");
+  ctx.font = "20px Arial";
+  // ctx.fillText("Score:",0,20);
+  // ctx.fillText("Lives:",280,20); 
+</script>
 
 <script>
 var background = new Image();
@@ -79,7 +87,8 @@ function gameLoop() {
   drawObject(myPlayer);
   drawObject(harm);
   drawObject(benefit);
-
+  ctx.fillText("Score: " +score,0,20);
+  ctx.fillText("Lives: " +lives,350,20);
 
   //losingOrwinningThegame();
   // for i in [myPlayer, harm, benefit] {
