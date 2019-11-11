@@ -69,7 +69,10 @@ function gameLoop() {
   }
 
   if (benefit.x > c.width) {
-    benefit.x -= c.width;
+    let random = Math.floor(Math.random()*(0 - (-24) + 1)+(-24));
+    benefit.x = random;
+    random = Math.floor(Math.random()*(c.height + 1));
+    benefit.y = random;
   }
 
   if(myPlayer.y > c.height){
@@ -126,7 +129,10 @@ function losePoint(obj1, obj2){
     if (distance < obj1.rad + obj2.rad) {
       // collision detected!
         lives -= 1;
-        harm.x -= c.width;
+        let random = Math.floor(Math.random()*(0 - (-24) + 1)+(-24));
+        harm.x = random;
+        random = Math.floor(Math.random()*(c.height + 1));
+        harm.y = random;
         benefit.x -= c.width;
         if(lives == 0){
           gameOver = true;
@@ -145,6 +151,11 @@ function gainPoint(obj1, obj2){
       // collision detected!
       if(score < 10){
         score += 1;
+        harm.x -= c.width;
+        let random = Math.floor(Math.random()*(0 - (-24) + 1)+(-24));
+        benefit.x = random;
+        random = Math.floor(Math.random()*(c.height + 1));
+        benefit.y = random;
       }
 
     }
