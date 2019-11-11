@@ -83,7 +83,8 @@ function gameLoop() {
   // draw a circle
   // start a new path;  
   //  comment out begin and close path to see what happens
-
+  losePoint(harm, myPlayer);
+  gainPoint(benefit, myPlayer);
   drawObject(myPlayer);
   drawObject(harm);
   drawObject(benefit);
@@ -117,7 +118,37 @@ function drawObject(obj){
   
 }
 
+function losePoint(obj1, obj2){
+  var distx = obj1.x - obj2.x;
+  var disty = obj1.y - obj2.y;
+  var distance =  Math.sqrt(distx * distx + disty * disty);
 
+    if (distance < obj1.rad + obj2.rad) {
+      // collision detected!
+        lives -= 1;
+        harm.x -= c.width;
+        benefit.x -= c.width;
+        if(lives == 0){
+          gameOver = true;
+        }
+
+    }
+  
+}
+
+function gainPoint(obj1, obj2){
+  var distx = obj1.x - obj2.x;
+  var disty = obj1.y - obj2.y;
+  var distance =  Math.sqrt(distx * distx + disty * disty);
+
+    if (distance < obj1.rad + obj2.rad) {
+      // collision detected!
+      if(score < 10){
+        score += 1;
+      }
+
+    }
+}
 
 </script>
 
