@@ -14,9 +14,7 @@
 <script>
   var canvas = document.getElementById("myCanvas");   
   var ctx = canvas.getContext("2d");
-  ctx.font = "20px Arial";
-  // ctx.fillText("Score:",0,20);
-  // ctx.fillText("Lives:",280,20); 
+  ctx.font = "80px Arial"; 
 </script>
 
 <script>
@@ -36,19 +34,55 @@ var gameOver = false;
 var benefit = {rad: 10, x: 0, y: 100, color:"blue"};
 
 var myPlayer = {rad: 10, x: 350, y: c.height/2, color: "green"};
+    
+var paused = false;
  
 window.addEventListener("keydown", function(e){
 console.log(e);
 if(e.code == "ArrowDown"){
-    
+    if(myPlayer.y < c.height){ 
+  
      myPlayer.y += 3;
+    }
 }
-  if(e.code == "ArrowUp"){
+if(e.code == "ArrowUp"){
 
-      myPlayer.y -= 3;
-  }
+    if(myPlayer.y > 0){ 
+  
+     myPlayer.y -= 3;
+    }
+}
+     if (e.code == "Space")// space key
+    {
+        if (!paused){
+            paused = true;
+        } 
+        else if (paused){
+           paused= false;
+        }
+    }
 
 });
+    
+// window.addEventListener("keydown", function (e) {
+// console.log(e);
+//     if (e.code == "Space")// space key
+//     {
+//         if (!paused)
+//         {
+//             paused = true;
+//             harm.x = paused;
+//             benefit.x = paused;
+//         } 
+//         else if (paused)
+//         {
+//            paused= false;
+//            harm.x = paused;
+//            benefit.x = paused;
+//         }
+//     }
+// });
+    
 function gameLoop() {
   //text on canvas
   
@@ -75,9 +109,6 @@ function gameLoop() {
     benefit.y = random;
   }
 
-  if(myPlayer.y > c.height){
-     myPlayer.y -= c.height/2; 
-  }
   // draw objects
 
   // draw the background image
@@ -103,8 +134,8 @@ function gameLoop() {
   
 
   // call again when available
-  if(!gameOver){
-window.requestAnimationFrame(gameLoop);
+if(!gameOver){
+    window.requestAnimationFrame(gameLoop);
 }
 }
 
