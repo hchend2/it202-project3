@@ -10,17 +10,11 @@
 
 <canvas id="animationCanvas" width="400" height="400"></canvas>
 
-<!-- <script>
-  var canvas = document.getElementById("myCanvas");   
-  var ctx = canvas.getContext("2d");
-   
-</script> -->
-
 <script>
+    
 var background = new Image();
-background.src = "cosmos_universo.jpg";
+background.src = "observation-deck.jpg";
 
-var harm = {rad: 10, x: 0, y: 200, color:"red"};
 var c = document.getElementById("animationCanvas");   
 var ctx = c.getContext("2d");
 ctx.font = "20px Arial";
@@ -31,51 +25,66 @@ var score = 0;
 var lives = 10;
 var gameOver = false;
 
+var harm = {rad: 10, x: 0, y: 200, color:"red"};
+    
 var benefit = {rad: 10, x: 0, y: 100, color:"blue"};
 
 var myPlayer = {rad: 10, x: 350, y: c.height/2, color: "green"};
+ 
+var projectile = {rad: 5, x: 350, y: c.height/2, color: "white"};
     
 var paused = false;
+    
+var fired = false;
  
 window.addEventListener("keydown", function(e){
 console.log(e);
+    
+//arrowdown move myPlayer downward...
 if(e.code == "ArrowDown"){
     if(myPlayer.y < c.height){ 
   
-     myPlayer.y += 3;
+     myPlayer.y += 5;
+     projectile.y += 5;
     }
 }
+//arrowup move myPlayer upward...
 if(e.code == "ArrowUp"){
 
-    if(myPlayer.y > 0){ 
-  
-     myPlayer.y -= 3;
+    if(myPlayer.y > 0)
+    {   
+     myPlayer.y -= 5;
+     projectile.y -= 5;
     }
 }
-     if (e.code == "Space")// space key
-    {
-        if (!paused){
-            paused = true;
-        } 
-        else if (paused){
-           paused= false;
-        }
+//play/pause on spacekey down...
+if (e.code == "Space")// space key
+{
+    if (!paused){
+        paused = true;
+    } 
+    else if (paused){
+       paused= false;
     }
+}
 
+//myPlayer fired the projectile...
+if(e.code == "Enter"){
+    fired = true;
+    projectile.x -= 8;
+}
 });
     
     
 function gameLoop() {
-  //text on canvas
   
   // clear the canvas
   ctx.clearRect(0, 0, c.width, c.height);
 
-
  // increment coord to "move" l to r
  if(!paused){
-  harm.x += 3;
-  benefit.x += 3;
+  harm.x += 2;
+  benefit.x += 2;
   }
 
   //handle edge condition
@@ -93,6 +102,20 @@ function gameLoop() {
     benefit.y = random;
   }
 
+    if(!paused)
+    {
+        if(killAnObject(harm, projectile))
+        {
+           harm.x = 0;
+           projectile.x = 350;
+           random = Math.floor(Math.random()*(c.height + 1));
+           harm.y = random;
+        
+        }
+        if(projectile.x <= 0){
+            projectile.x = 350;
+        }
+    }
   // draw objects
 
   // draw the background image
@@ -104,35 +127,32 @@ function gameLoop() {
   losePoint(harm, myPlayer);
   gainPoint(benefit, myPlayer);
   drawObject(myPlayer);
+  drawObject(projectile);
   drawObject(harm);
   drawObject(benefit);
+    
   ctx.fillText("Score: " +score,0,20);
   ctx.fillText("Lives: " +lives,320,20);
 
-  //losingOrwinningThegame();
-  // for i in [myPlayer, harm, benefit] {
-  //   drawObject[i]
-  // }
-  
-  //ctx.arc(y1, x1, 25, 0, Math.PI * 2);
+    //game over message...
+    if(gameOver){ 
+      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.fillText("Game over",200,100);
+      ctx.fillText("Your score is: " +score, 200, 125);
+    }
 
-//game over message...
-if(gameOver){ 
-  ctx.clearRect(0, 0, c.width, c.height);
-  ctx.fillText("Game over",200,100);
-  ctx.fillText("Your score is: " +score, 200, 125);
-}
+    //move on to the next level...
+    if(score == 10)
+    {
+      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.fillText("Congratulat! on to the next level",95,100);
+    }
 
-//move on to the next level...
-if(score == 10){
-  ctx.clearRect(0, 0, c.width, c.height);
-  ctx.fillText("Congratulat! on to the next level",95,100);
-}
-
-// call again when available
-if(!gameOver){
-    window.requestAnimationFrame(gameLoop);
-}
+    // call again when available
+    if(!gameOver)
+    {
+        window.requestAnimationFrame(gameLoop);
+    }
 }
 
 // kick it off
@@ -162,6 +182,7 @@ function losePoint(obj1, obj2){
         random = Math.floor(Math.random()*(c.height + 1));
         harm.y = random;
         benefit.x -= c.width;
+        
         if(lives == 0){
           gameOver = true;
         }
@@ -190,6 +211,15 @@ function gainPoint(obj1, obj2){
     }
 }
 
+//killing object...
+function killAnObject(obj1, obj2){
+  var distx = obj1.x - obj2.x;
+  var disty = obj1.y - obj2.y;
+  var distance =  Math.sqrt(distx * distx + disty * disty);
+    if (distance < obj1.rad + obj2.rad) {
+        return true;
+    }
+}
 </script>
 
 </body>
