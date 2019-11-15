@@ -64,24 +64,6 @@ if(e.code == "ArrowUp"){
 
 });
     
-// window.addEventListener("keydown", function (e) {
-// console.log(e);
-//     if (e.code == "Space")// space key
-//     {
-//         if (!paused)
-//         {
-//             paused = true;
-//             harm.x = paused;
-//             benefit.x = paused;
-//         } 
-//         else if (paused)
-//         {
-//            paused= false;
-//            harm.x = paused;
-//            benefit.x = paused;
-//         }
-//     }
-// });
     
 function gameLoop() {
   //text on canvas
@@ -90,9 +72,11 @@ function gameLoop() {
   ctx.clearRect(0, 0, c.width, c.height);
 
 
-  // increment coord to "move" l to r
+ // increment coord to "move" l to r
+ if(!paused){
   harm.x += 0.5;
   benefit.x += 0.5;
+  }
 
   //handle edge condition
   if (harm.x > c.width) {
