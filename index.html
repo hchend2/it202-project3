@@ -18,7 +18,7 @@
 
 <script>
 var background = new Image();
-background.src = "hs-2014-27-a-print.0.0.jpg";
+background.src = "cosmos_universo.jpg";
 
 var harm = {rad: 10, x: 0, y: 200, color:"red"};
 var c = document.getElementById("animationCanvas");   
@@ -96,7 +96,7 @@ function gameLoop() {
   // draw objects
 
   // draw the background image
-  //ctx.drawImage(background, 0, 0);
+  ctx.drawImage(background, 0, 0);
   
   // draw a circle
   // start a new path;  
@@ -115,23 +115,21 @@ function gameLoop() {
   // }
   
   //ctx.arc(y1, x1, 25, 0, Math.PI * 2);
-  
+
+//game over message...
 if(gameOver){ 
   ctx.clearRect(0, 0, c.width, c.height);
-  //ctx.fillStyle = grd;
-  //ctx.fillRect(0, 0, c.width, c.height);
-  //ctx.font = "20px Arial";
   ctx.fillText("Game over",200,100);
   ctx.fillText("Your score is: " +score, 200, 125);
 }
-    
+
+//move on to the next level...
 if(score == 10){
-  //move on to the next level...
   ctx.clearRect(0, 0, c.width, c.height);
   ctx.fillText("Congratulat! on to the next level",95,100);
 }
 
-  // call again when available
+// call again when available
 if(!gameOver){
     window.requestAnimationFrame(gameLoop);
 }
