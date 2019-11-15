@@ -124,6 +124,12 @@ if(gameOver){
   ctx.fillText("Game over",200,100);
   ctx.fillText("Your score is: " +score, 200, 125);
 }
+    
+if(score == 10){
+  //move on to the next level...
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.fillText("Congratulat! on to the next level",95,100);
+}
 
   // call again when available
 if(!gameOver){
