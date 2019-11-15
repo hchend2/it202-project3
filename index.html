@@ -31,21 +31,22 @@ var benefit = {rad: 10, x: 0, y: 100, color:"blue"};
 
 var myPlayer = {rad: 10, x: 350, y: c.height/2, color: "green"};
  
-var projectile = {rad: 5, x: 350, y: c.height/2, color: "white"};
+var projectile = {rad: 5, x: 400, y: c.height/2, color: "white"};
     
 var paused = false;
     
 var fired = false;
+    
+var counter = 0;
  
 window.addEventListener("keydown", function(e){
 console.log(e);
     
 //arrowdown move myPlayer downward...
 if(e.code == "ArrowDown"){
-    if(myPlayer.y < c.height){ 
-  
+    if(myPlayer.y < c.height)
+    { 
      myPlayer.y += 5;
-     projectile.y += 5;
     }
 }
 //arrowup move myPlayer upward...
@@ -54,7 +55,6 @@ if(e.code == "ArrowUp"){
     if(myPlayer.y > 0)
     {   
      myPlayer.y -= 5;
-     projectile.y -= 5;
     }
 }
 //play/pause on spacekey down...
@@ -70,8 +70,18 @@ if (e.code == "Space")// space key
 
 //myPlayer fired the projectile...
 if(e.code == "Enter"){
+    
+    projectile.x = myPlayer.x;
+    projectile.y = myPlayer.y;
+    
+    if(!fired)
+    {
     fired = true;
-    projectile.x -= 8;
+    }
+    else
+    {
+    fired = false;
+    }
 }
 });
     
@@ -82,10 +92,13 @@ function gameLoop() {
   ctx.clearRect(0, 0, c.width, c.height);
 
  // increment coord to "move" l to r
- if(!paused){
-  harm.x += 2;
-  benefit.x += 2;
+ if(!paused)
+ {   
+      projectile.x -= 5;  
+      harm.x += 2;
+      benefit.x += 2;
   }
+    
 
   //handle edge condition
   if (harm.x > c.width) {
@@ -112,9 +125,9 @@ function gameLoop() {
            harm.y = random;
         
         }
-        if(projectile.x <= 0){
-            projectile.x = 350;
-        }
+//         if(projectile.x <= 0){
+//             projectile.x = 350;
+//         }
     }
   // draw objects
 
