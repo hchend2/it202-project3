@@ -9,13 +9,12 @@
 
 
 <canvas id="animationCanvas" width="400" height="400"></canvas>
-<canvas id="myCanvas" width="400" height="400"></canvas>
 
-<script>
+<!-- <script>
   var canvas = document.getElementById("myCanvas");   
   var ctx = canvas.getContext("2d");
-  ctx.font = "80px Arial"; 
-</script>
+   
+</script> -->
 
 <script>
 var background = new Image();
@@ -24,6 +23,7 @@ background.src = "hs-2014-27-a-print.0.0.jpg";
 var harm = {rad: 10, x: 0, y: 200, color:"red"};
 var c = document.getElementById("animationCanvas");   
 var ctx = c.getContext("2d");
+ctx.font = "20px Arial";
 console.log(c.width, c.height);
 
 
@@ -74,8 +74,8 @@ function gameLoop() {
 
  // increment coord to "move" l to r
  if(!paused){
-  harm.x += 0.5;
-  benefit.x += 0.5;
+  harm.x += 3;
+  benefit.x += 3;
   }
 
   //handle edge condition
@@ -107,7 +107,7 @@ function gameLoop() {
   drawObject(harm);
   drawObject(benefit);
   ctx.fillText("Score: " +score,0,20);
-  ctx.fillText("Lives: " +lives,350,20);
+  ctx.fillText("Lives: " +lives,320,20);
 
   //losingOrwinningThegame();
   // for i in [myPlayer, harm, benefit] {
@@ -116,6 +116,14 @@ function gameLoop() {
   
   //ctx.arc(y1, x1, 25, 0, Math.PI * 2);
   
+if(gameOver){ 
+  ctx.clearRect(0, 0, c.width, c.height);
+  //ctx.fillStyle = grd;
+  //ctx.fillRect(0, 0, c.width, c.height);
+  //ctx.font = "20px Arial";
+  ctx.fillText("Game over",200,100);
+  ctx.fillText("Your score is: " +score, 200, 125);
+}
 
   // call again when available
 if(!gameOver){
@@ -136,6 +144,7 @@ function drawObject(obj){
   
 }
 
+//lose point when harm hit myPlayer...
 function losePoint(obj1, obj2){
   var distx = obj1.x - obj2.x;
   var disty = obj1.y - obj2.y;
@@ -157,6 +166,7 @@ function losePoint(obj1, obj2){
   
 }
 
+//gain point when myPlayer hit benefit...
 function gainPoint(obj1, obj2){
   var distx = obj1.x - obj2.x;
   var disty = obj1.y - obj2.y;
